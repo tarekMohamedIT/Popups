@@ -41,6 +41,7 @@ public class FileDialog{
     Button selectButton;
 
     private TextView pathTextView;
+    private TextView selectedFileTextView;
 
     private RecyclerView filesRecyclerView;
     private FilesRecyclerAdapter adapter;
@@ -84,11 +85,13 @@ public class FileDialog{
                     currentFile = currentFile.getParentFile();
                     getFilesList(--depth);
                     pathTextView.setText(currentFile.getAbsolutePath());
+                    selectedFileTextView.setText("Selected file : none");
                 }
             }
         });
 
         pathTextView = view.findViewById(R.id.pathTextView);
+        selectedFileTextView = view.findViewById(R.id.selectedFileTextView);
 
         adapter.setOnItemClickListener(new OnItemClickListener() {
             @Override
@@ -98,10 +101,12 @@ public class FileDialog{
                         currentFile = new File(adapter.getSelectedFileInfo().getPath());
                         getFilesList(++depth);
                         pathTextView.setText(currentFile.getAbsolutePath());
+                        selectedFileTextView.setText("Selected file : none");
                     }
 
                     else {
                         selectedFile = new File(adapter.getSelectedFileInfo().getPath());
+                        selectedFileTextView.setText("Selected file : " + selectedFile.getName());
                         Log.e("selected file", selectedFile.getName());
                     }
                 }
